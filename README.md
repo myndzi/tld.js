@@ -26,6 +26,18 @@ And to include it in any relevant script:
 var tld = require('tldjs');
 ```
 
+### exists()
+
+Use it to check the existence of a Top-Level-Domain.
+
+```javascript
+tld.exists('com'); //returns true
+tld.exists('uk'); //returns true
+tld.exists('om'); //returns true
+tld.exists('pr0n'); //returns false
+tld.exists('co.uk'); //returns false because it is a SLD
+```
+
 ### getDomain()
 
 ```javascript
