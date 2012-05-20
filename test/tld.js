@@ -9,6 +9,24 @@ suite('tld.js', function(){
     });
   });
 
+  suite('#exists()', function(){
+    test('Good one', function(){
+      expect(tld.exists('com')).to.be(true);
+      expect(tld.exists('uk')).to.be(true);
+    });
+
+    test('Not a tld', function(){
+      expect(tld.exists('google')).to.be(false);
+      expect(tld.exists('boogle')).to.be(false);
+    });
+
+    test('Good tld but with a SLD', function(){
+      expect(tld.exists('co.uk')).to.be(false);
+      expect(tld.exists('kyoto.jp')).to.be(false);
+      expect(tld.exists('city.kyoto.jp')).to.be(false);
+    });
+  });
+
   suite('#isValid()', function(){
     test('Good one', function(){
       expect(tld.isValid('')).to.be(false);
