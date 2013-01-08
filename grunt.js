@@ -4,7 +4,7 @@
 /*jshint node:true strict: true */
 
 module.exports = function (grunt) {
-  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-closure-compiler');
 
   // Project configuration.
   grunt.initConfig({
@@ -21,9 +21,25 @@ module.exports = function (grunt) {
         src: 'dist/tld.js'
       }
     },
-    browserify: {
-      'dist/tld.js': {
-        entries: [ './index.js' ]
+    concat: {
+      json: {
+        src: [ 'src/rules-intro.js', 'src/rules.json', 'src/rules-outro.js' ],
+        dest: 'src/rules.js',
+        options: {
+          separator: ' '
+        }
+      }
+    },
+    'closure-compiler': {
+      browser: {
+        js: [ './browser/exports.js', './lib/rule.js', '/src/rules.js', './lib/tld.js' ],
+        jsOutputFile: 'dist/tld.js',
+        options: {
+          compilation_level: 'WHITESPACE_ONLY',
+          language_in: 'ECMASCRIPT5_STRICT',
+          process_common_js_modules: null,
+          common_js_entry_module: './browser'
+        }
       }
     },
     jshint: {
@@ -47,7 +63,7 @@ module.exports = function (grunt) {
 
   // Default task.
   grunt.registerTask('default', 'lint');
-  grunt.registerTask('build', 'browserify min');
+  grunt.registerTask('build', 'concat:json closure-compiler');
 
   // Custom Task to build files
   grunt.registerTask('update',
